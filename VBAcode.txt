@@ -1,0 +1,40 @@
+Sub Stock()
+    Dim name As String
+    Dim nameTotal As Double
+    Dim openingDate As Long
+    Dim closingDate As Long
+    Dim openingPrice As Long
+    Dim closingPrice As Long
+    Dim SummaryTable As Long
+    Dim Volume As Long
+    Dim VolumeTotal As Long
+    openingDate = 99999999
+    closingDate = 0
+    nameTotal = 0
+    SummaryTable = 2
+    For i = 2 To 705714
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            name = Cells(i, 1).Value
+            nameTotal = nameTotal + Cells(i, 3).Value
+            VolumeTotal = Volume + Cells(i, 7).Value
+            Range("J" & SummaryTable).Value = name
+            Range("K" & SummaryTable).Value = closingPrice - openingPrice
+            Range("L" & SummaryTable).Value = FormatNumber((closingPrice - openingPrice) / 100)
+            Range("M" & SummaryTable).Value = VolumeTotal
+            SummaryTable = SummaryTable + 1
+            nameTotal = 0
+            openingDate = 99999999
+            closingDate = 0
+        Else
+            If Cells(i, 2).Value < openingDate Then
+                openingDate = Cells(i, 2).Value
+                openingPrice = Cells(i, 3).Value
+            End If
+            If Cells(i, 2).Value > closingDate Then
+                closingDate = Cells(i, 2).Value
+                closingPrice = Cells(i, 5).Value
+            End If
+            
+        End If
+        Next i
+End Sub
